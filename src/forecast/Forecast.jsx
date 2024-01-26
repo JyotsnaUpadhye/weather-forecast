@@ -17,6 +17,9 @@ const Forecast = ({ city, onToggleTemperatureUnit, units }) => {
       if (data.cod === '200') {
         // Update the state with the forecast data
         setForecastData(data.list);
+      } else if (data.cod === '404') {
+        // Alert the user that the city name does not exist
+        alert(`${city} not found. Please enter a valid city name.`);
       } else {
         console.error('Failed to fetch weather data:', data.message);
       }
