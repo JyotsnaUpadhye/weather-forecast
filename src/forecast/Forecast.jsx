@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import './forecast.css';
 
-
 const Forecast = ({ city, onToggleTemperatureUnit, units }) => {
   const [forecastData, setForecastData] = useState([]);
   const [isCelsius, setIsCelsius] = useState(true);
@@ -12,7 +11,6 @@ const Forecast = ({ city, onToggleTemperatureUnit, units }) => {
     try {
       const response = await fetch(URL);
       const data = await response.json();
-      console.log(data);
 
       if (data.cod === '200') {
         // Update the state with the forecast data
@@ -39,9 +37,12 @@ const Forecast = ({ city, onToggleTemperatureUnit, units }) => {
     getFormattedWeatherForecast(city, 5);
   }, [city]); // Include 'city' in the dependency array
 
+  // Extract the next 5 days from the forecastData array
+  const next5DaysData = forecastData.slice(0, 5);
+
   return (
     <div className="section section__forecast">
-      {forecastData.map((forecast, index) => (
+      {next5DaysData.map((forecast, index) => (
         <div className="card1" key={index} onClick={toggleTemperatureUnit}>
           <div className="forecast__card1-icon1">
             <img
@@ -57,7 +58,8 @@ const Forecast = ({ city, onToggleTemperatureUnit, units }) => {
             </div>
             <small>{forecast.weather[0].description}</small>
             <div className="forecast_date">
-              <small>{new Date(forecast.dt_txt).toLocaleDateString()}</small>
+              {/* Calculate the specific date based on the index */}
+              <small>{new Date(forecast.dt * 1000 + index * 22 * 60 * 60 * 1000).toLocaleDateString()}</small>
             </div>
           </div>
         </div>
