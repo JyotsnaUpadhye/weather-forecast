@@ -118,8 +118,8 @@
   .temperature>h1 {
     font-size: 30px;
   }
-
 }
+
 @media screen and (min-width: 1025px) {
   .overlay {
     height: 100vh;

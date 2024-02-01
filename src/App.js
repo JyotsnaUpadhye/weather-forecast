@@ -15,11 +15,6 @@ function App() {
     const fetchWeatherData = async () => {
       const data = await getFormattedWeatherData(city, units);
       setWeather(data);
-
-      //dynamic BG
-      const threshold = units === "metric" ? 20 : 60;
-      if (data.temp <= threshold) setBg(coldBg);
-      else setBg(hotBg);
     };
 
     fetchWeatherData();
@@ -30,14 +25,14 @@ function App() {
   };
 
   const enterKeyPressed = (e) => {
-    if(e.keyCode === 13) {
+    if (e.keyCode === 13) {
       setCity(e.currentTarget.value);
       e.currentTarget.blur();
     }
   }
 
   return (
-    <div className="app" style={{backgroundImage: `url(${bg})`}}>
+    <div className="app" style={{ backgroundImage: `url(${bg})` }}>
       <div className="overlay">
         {
           weather && (
@@ -54,18 +49,16 @@ function App() {
                   <h3>{weather.description}</h3>
                 </div>
                 <div className="temperature">
-                  <h1>{`${weather.temp.toFixed()} °${units === "metric" ? "C" : "F"} `}</h1>
+                  <h1>{`${units === "metric" ? weather.temp.toFixed() + " °C" : Math.ceil((weather.temp * 9 / 5) + 32) + " °F"}`}</h1>
                 </div>
               </div>
 
               {/*bottom description */}
-              <Descriptions weather = {weather} units = {units} />
+              <Descriptions weather={weather} units={units} />
               <Forecast city={city} units={units} toggleTemperatureUnit={toggleTemperatureUnit} />
-             </div>
+            </div>
           )
-         
         }
-        
       </div>
     </div>
   );
